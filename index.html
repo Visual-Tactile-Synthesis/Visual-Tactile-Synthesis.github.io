@@ -1,0 +1,1521 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="description"
+        content="Controllable visual tactile synthesis for multi-modal rendering given a sketch input">
+  <meta name="keywords" content="Visual-Tactile-Syn, synthesis, rendering, generative models">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Controllable Visual-Tactile Synthesis</title>
+
+  <!-- Global site tag (gtag.js) - Google Analytics -->
+  <!-- TODO: Add your own Google Analytics ID here.  -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-PYVRSFMDRL"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+
+    function gtag() {
+      dataLayer.push(arguments);
+    }
+
+    gtag('js', new Date());
+
+    gtag('config', 'G-PYVRSFMDRL');
+  </script>
+  <link rel="stylesheet" href="./static/css/juxtapose.css">
+  
+
+  <link href="https://fonts.googleapis.com/css?family=Google+Sans|Noto+Sans|Castoro"
+        rel="stylesheet">
+
+  <link rel="stylesheet" href="./static/css/bulma.min.css">
+  <link rel="stylesheet" href="./static/css/bulma-carousel.min.css">
+  <link rel="stylesheet" href="./static/css/bulma-slider.min.css">
+  <link rel="stylesheet"
+        href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
+  <link rel="stylesheet" href="./static/css/index.css">
+  <!-- <link rel="icon" href="./static/images/favicon.svg"> -->
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script defer src="./static/js/fontawesome.all.min.js"></script>
+  <script src="./static/js/bulma-carousel.min.js"></script>
+  <script src="./static/js/bulma-slider.min.js"></script>
+  <script src="./static/js/index.js"></script>
+
+  <!-- Load plotly.js into the DOM for the clickable events -->
+	<script src='https://cdn.plot.ly/plotly-2.14.0.min.js'></script>
+  <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
+  <!-- <script src="./static/js/clickable.js"></script> -->
+
+  <!-- Load JaxtaposeJS for image slider -->
+  <!-- <script src="https://cdn.knightlab.com/libs/juxtapose/latest/js/juxtapose.min.js"></script>
+  <link rel="stylesheet" href="https://cdn.knightlab.com/libs/juxtapose/latest/css/juxtapose.css"> -->
+  
+</head>
+<body>
+
+
+<!-- Top bar for personal page and navigation to more projects -->
+<nav class="navbar" role="navigation" aria-label="main navigation">
+  <div class="navbar-brand">
+    <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false">
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+    </a>
+  </div>
+  <div class="navbar-menu">
+    <div class="navbar-start" style="flex-grow: 1; justify-content: center;">
+      <a class="navbar-item" href="https://ruihangao.com/">
+      <span class="icon">
+          <i class="fas fa-home"></i>
+      </span>
+      </a>
+
+      <div class="navbar-item has-dropdown is-hoverable">
+        <a class="navbar-link">
+          More Projects
+        </a>
+        <div class="navbar-dropdown">
+          <a class="navbar-item" href="https://ruihangao.com/publications/">
+            Texture Classification
+          </a>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</nav>
+
+<!-- Title -->
+<section class="hero">
+  <div class="hero-body">
+    <div class="container is-max-desktop">
+      <div class="columns is-centered">
+        <div class="column has-text-centered">
+          <h1 class="title is-1 publication-title">Controllable Visual-Tactile Synthesis</h1>
+          
+          <!-- authors -->
+          <div class="is-size-5 publication-authors">
+            <span class="author-block">
+              <a href="https://ruihangao.com/">Ruihan Gao</a>,</span>
+            <span class="author-block">
+              <a href="http://robotouch.ri.cmu.edu/yuanwz/">Wenzhen Yuan</a>,</span>
+            <span class="author-block">
+              <a href="https://www.cs.cmu.edu/~junyanz/">Jun-Yan Zhu</a>,
+            </span>
+          </div>
+          <div class="is-size-5 publication-authors">
+            <span class="author-block">Carnegie Mellon University</span>
+          </div>
+          
+          <!-- Button for different release formats -->
+          <div class="column has-text-centered">
+            <div class="publication-links">
+              <!-- PDF Link. -->
+              <span class="link-block">
+                <!-- TODO: change to your own paper link, e.g. https://arxiv.org/pdf/2011.12948-->
+                <a href="https://arxiv.org"
+                   class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                      <i class="fas fa-file-pdf"></i>
+                  </span>
+                  <span>Paper</span>
+                </a>
+              </span>
+              <span class="link-block">
+                <!-- TODO: change to your own paper link, e.g. https://arxiv.org/abs/2011.12948-->
+                <a href="https://arxiv.org"
+                   class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                      <i class="ai ai-arxiv"></i>
+                  </span>
+                  <span>arXiv</span>
+                </a>
+              </span>
+              <!-- Video Link. -->
+              <span class="link-block">
+                <!-- TODO: change to your own paper link, e.g. https://www.youtube.com/watch?v=MrKrnHhk8IA -->
+                <a href="https://www.youtube.com"
+                   class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                      <i class="fab fa-youtube"></i>
+                  </span>
+                  <span>Video</span>
+                </a>
+              </span>
+              <!-- Code Link. -->
+              <span class="link-block">
+                <!-- TODO: change to your own paper link, e.g. https://github.com/google/nerfies -->
+                <a href="https://github.com/"
+                   class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                      <i class="fab fa-github"></i>
+                  </span>
+                  <span>Code</span>
+                  </a>
+              </span>
+              <!-- Dataset Link. -->
+              <span class="link-block">
+                <!-- TODO: change to your own paper link, e.g. https://github.com/google/nerfies/releases/tag/0.1 -->
+                <a href="https://github.com/"
+                   class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                      <i class="far fa-images"></i>
+                  </span>
+                  <span>Data</span>
+                  </a>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Teaser video and text -->
+<section class="hero teaser">
+  <div class="container is-max-desktop">
+    <div class="hero-body">
+      <!-- <video id="teaser" autoplay loop playsinline height="100%" controls muted="false">
+        <source src="./static/videos/website_teaser_video_v5_voiceover.mp4"
+                type="video/mp4">
+      </video> -->
+      <!-- Embed a Youtube video link for faster loading -->
+      <div class="video-container">
+        <iframe src="https://www.youtube.com/embed/TdwPfwsGX3I" frameborder="0" allowfullscreen></iframe>
+      </div>
+      
+      <h2 class="subtitle has-text-justified">
+        <b>Content creation beyond visual output: </b> 
+        We present <span class="method-title">Visual-Tactile-Syn</span>, a conditional image-to-image approach to synthesize visual appearance and tactile geometry of different materials, given a handcrafted or  DALL⋅E 2 sketch. The visual and tactile outputs can be rendered on a surface haptic device like TanvasTouch&reg; where users can slide on the screen to feel the rendered textures.
+        Turn the audio ON to hear the sound of the rendering.
+        <!-- Add a download link for the mp4 video-->
+        <span style=" color: #0475F5;"><a href="https://drive.google.com/file/d/1DktCL-GiiYzJ5Sy8BgKbQDqcxw1m7fSN/view?usp=share_link">[Download the video here]</a></span>
+      </h2>
+    </div>
+  </div>
+</section>
+
+<!-- A carousel of results all materials -->
+<section class="hero is-light is-small">
+  <div class="hero-body">
+    <div class="container">
+      <div id="results-carousel" class="carousel results-carousel">
+        <!-- Note: Need at least 4 items to show carousel -->
+        <!-- TODO: maybe not show everything, choose some impressive results. -->
+
+        <video id="recon-mesh-BlackJeans" autoplay controls muted loop playsinline height="100%">
+          <source src="./static/videos/recon_mesh/rendered_mesh_BlackJeans_BlackJeans.mp4"
+                  type="video/mp4">
+        </video> 
+
+        <video id="recon-mesh-BluePants" autoplay controls muted loop playsinline height="100%">
+          <source src="./static/videos/recon_mesh/rendered_mesh_BluePants_BluePants.mp4"
+                  type="video/mp4">
+        </video> 
+
+        <video id="recon-mesh-BlueSports" autoplay controls muted loop playsinline height="100%">
+          <source src="./static/videos/recon_mesh/rendered_mesh_BlueSports_BlueSports.mp4"
+                  type="video/mp4">
+        </video> 
+
+        <video id="recon-mesh-BrownVest" autoplay controls muted loop playsinline height="100%">
+          <source src="./static/videos/recon_mesh/rendered_mesh_BrownVest_BrownVest.mp4"
+                  type="video/mp4">
+        </video> 
+
+        <video id="recon-mesh-ColorPants" autoplay controls muted loop playsinline height="100%">
+          <source src="./static/videos/recon_mesh/rendered_mesh_ColorPants_ColorPants.mp4"
+                  type="video/mp4">
+        </video> 
+
+        <video id="recon-mesh-ColorSweater" autoplay controls muted loop playsinline height="100%">
+          <source src="./static/videos/recon_mesh/rendered_mesh_ColorSweater_ColorSweater.mp4"
+                  type="video/mp4">
+        </video> 
+
+        <video id="recon-mesh-DenimShirt" autoplay controls muted loop playsinline height="100%">
+          <source src="./static/videos/recon_mesh/rendered_mesh_DenimShirt_DenimShirt.mp4"
+                  type="video/mp4">
+        </video> 
+
+        <video id="recon-mesh-FlowerJeans" autoplay controls muted loop playsinline height="100%">
+          <source src="./static/videos/recon_mesh/rendered_mesh_FlowerJeans_FlowerJeans.mp4"
+                  type="video/mp4">
+        </video>
+
+        <video id="recon-mesh-FlowerShorts" autoplay controls muted loop playsinline height="100%">
+          <source src="./static/videos/recon_mesh/rendered_mesh_FlowerShorts_FlowerShorts.mp4"
+                  type="video/mp4">
+        </video>
+
+        <video id="recon-mesh-GrayPants" autoplay controls muted loop playsinline height="100%">
+          <source src="./static/videos/recon_mesh/rendered_mesh_GrayPants_GrayPants.mp4"
+                  type="video/mp4">
+        </video>
+        
+        <video id="recon-mesh-GreenShirt" autoplay controls muted loop playsinline height="100%">
+          <source src="./static/videos/recon_mesh/rendered_mesh_GreenShirt_GreenShirt.mp4"
+                  type="video/mp4">
+        </video>
+
+        <video id="recon-mesh-GreenSkirt" autoplay controls muted loop playsinline height="100%">
+          <source src="./static/videos/recon_mesh/rendered_mesh_GreenSkirt_GreenSkirt.mp4"
+                  type="video/mp4">
+        </video>
+
+        <video id="recon-mesh-GreenSweater" autoplay controls muted loop playsinline height="100%">
+          <source src="./static/videos/recon_mesh/rendered_mesh_GreenSweater_GreenSweater.mp4"
+                  type="video/mp4">
+        </video>  
+        
+        <video id="recon-mesh-GreenTee" autoplay controls muted loop playsinline height="100%">
+          <source src="./static/videos/recon_mesh/rendered_mesh_GreenTee_GreenTee.mp4"
+                  type="video/mp4">
+        </video>
+
+        <video id="recon-mesh-NavyHoodie" autoplay controls muted loop playsinline height="100%">
+          <source src="./static/videos/recon_mesh/rendered_mesh_NavyHoodie_NavyHoodie.mp4"
+                  type="video/mp4">
+        </video>
+
+        <video id="recon-mesh-PinkShorts" autoplay controls muted loop playsinline height="100%">
+          <source src="./static/videos/recon_mesh/rendered_mesh_PinkShorts_PinkShorts.mp4"
+                  type="video/mp4">
+        </video>
+
+        <video id="recon-mesh-PurplePants" autoplay controls muted loop playsinline height="100%">
+          <source src="./static/videos/recon_mesh/rendered_mesh_PurplePants_PurplePants.mp4"
+                  type="video/mp4">
+        </video>
+
+        <video id="recon-mesh-RedShirt" autoplay controls muted loop playsinline height="100%">
+          <source src="./static/videos/recon_mesh/rendered_mesh_RedShirt_RedShirt.mp4"
+                  type="video/mp4">
+        </video>
+
+        <video id="recon-mesh-PinkShorts" autoplay controls muted loop playsinline height="100%">
+          <source src="./static/videos/recon_mesh/rendered_mesh_WhiteTshirt_WhiteTshirt.mp4"
+                  type="video/mp4">
+        </video>
+        
+        <video id="recon-mesh-WhiteVest" autoplay controls muted loop playsinline height="100%">
+          <source src="./static/videos/recon_mesh/rendered_mesh_WhiteVest_WhiteVest.mp4"
+                  type="video/mp4">
+        </video>
+
+      </div>
+
+      <span class="explanation">We show the colored mesh for each object. The mesh is exaggerated in z direction to show fine textures.</span>
+
+    </div>
+  </div>
+</section>
+
+<!-- Abstract -->
+<section class="section">
+  <div class="container is-max-desktop">
+    <!-- Abstract. -->
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-four-fifths">
+        <h2 class="title is-3">Abstract</h2>
+        <div class="content has-text-justified">
+          <p>
+            Deep generative models have various content creation applications such as graphic design, e-commerce, and virtual Try-on. However, current works mainly focus on synthesizing realistic visual outputs, often ignoring other sensory modalities, such as touch, which limits physical interaction with users.
+          </p>
+          <p>
+            In this work, we leverage deep generative models to create a multi-sensory experience where users can <i>touch</i> and <i>see</i> the synthesized object when sliding their fingers on a haptic surface. The main challenges lie in the significant scale discrepancy between vision and touch sensing and the lack of explicit mapping from touch sensing data to a haptic rendering device.
+          </p>
+          <p>
+            To bridge this gap, we collect high-resolution tactile data with a GelSight sensor and create a new visuotactile clothing dataset. We then develop a conditional generative model that synthesizes both visual and tactile outputs from a single sketch. 
+            We evaluate our method regarding image quality and tactile rendering accuracy. 
+            Finally, we introduce a pipeline to render high-quality visual and tactile outputs on an electroadhesion-based haptic device for an immersive experience, allowing for challenging materials and editable sketch inputs.
+          </p>
+        </div>
+      </div>
+    </div>
+    <!--/ Abstract. -->
+
+    <!-- Paper video. -->
+    <!-- <div class="columns is-centered has-text-centered">
+      <div class="column is-four-fifths">
+        <h2 class="title is-3">Video</h2>
+        <div class="publication-video">
+          <iframe src="https://www.youtube.com/embed/MrKrnHhk8IA?rel=0&amp;showinfo=0"
+                  frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+        </div>
+      </div>
+    </div> -->
+    <!--/ Paper video. -->
+  </div>
+</section>
+
+<!-- Visual-Tactile Synthesis, show one example of FlowerJeans with clickable patches -->
+<section class="section">
+  <div class="container is-max-desktop">
+    <div class="columns is-centered">
+      <div class="column is-full-width">
+        <h2 class="title is-3 has-text-centered">Results: Visual-Tactile Synthesis with interactive patches</h2>
+        <div class="content has-text-justified">
+          <p>
+            We show one example of FlowerJeans with clickable patches. Choose an image format from the "file" dropdown list, then click on the image to see the corresponding  patches. We show patches of sketch, visual image, tactile gx, tactile gy, and the normal map. The top rows the ground truth and the bottom rows are our synthesized results.
+          </p>
+          <!-- Configure the webpage layout for dropdown list and images -->
+          <div style="display: flex; flex-flow: row; margin: 1em;">
+              <div id='dropdown_left' style="width:100%; height: 100%; margin: 1em;">
+                  <label for="folders">Choose a folder:</label>
+                  <select name="folders" id="folders">
+                  </select>
+                  <br>
+                  <label for="files">Choose a file:</label>
+                  <select name="files" id="files">
+                  </select>
+              </div>
+          </div>
+
+          <div style="display: flex; flex-flow: row; margin: 1em;">
+            <div id='div_left' style="width:100%; height: 100%; margin: 1em;"></div>
+          </div>
+
+          <div style="display: flex; flex-flow: row; margin: 1em;">
+
+            <!-- Method 1. Display a collage image of all patches  -->
+            <!-- <div style="width: 50%; margin: 1em;">
+                <img id="patch_left" src="" alt="" style="width:100%;height:100%;">
+            </div> --> 
+
+            <!-- Method 2. Display multiple patches in a table, assign id to each image -->
+            <table>
+              <tr>
+                <th></th>
+                <th>Visual</th>
+                <th>Tactile gx</th>
+                <th>Tactile gy</th>
+                <th>Normal</th>
+              </tr>
+
+              <tr>
+                <th>Ground Truth</th>
+                <td><img style="text-align: center;" width="64" id="real_visual" src="" alt="real_visual"></td>
+                <td><img style="text-align: center;" width="64" id="real_gx" src="" alt="real_gx"></td>
+                <td><img style="text-align: center;" width="64" id="real_gy" src="" alt="real_gy"></td>
+                <td><img style="text-align: center;" width="64" id="real_normal" src="" alt="real_normal"></td>
+              </tr>
+
+              <tr>
+                <th>Ours</th>
+                <td><img style="text-align: center;" width="64" id="fake_visual" src="" alt="fake_visual"></td>
+                <td><img style="text-align: center;" width="64" id="fake_gx" src="" alt="fake_gx"></td>
+                <td><img style="text-align: center;" width="64" id="fake_gy" src="" alt="fake_gy"></td>
+                <td><img style="text-align: center;" width="64" id="fake_normal" src="" alt="fake_normal"></td>
+              </tr>
+            </table>
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Results, slidebar to show visual image and normal map -->
+<section class="section">
+  <div class="container is-max-desktop">
+    <div class="columns is-centered">
+      <div class="column is-full-width">
+        <h2 class="title is-3 has-text-centered">Results: swapping different materials</h2>
+        <div class="content has-text-justified">
+          <p>
+            Here we show the generated visual and tactile output. The leftmost column shows the testing sketch input, and the rest columns show the generated visual and tactile outputs. The tactile outputs are shown in surface normal maps to represent the geometry information. Our model can generate high-quality visual and tactile outputs for various clothing categories, in terms of both global shape and local textures.
+          </p>
+          
+          <!-- row 1 -->
+          <div class="columns is-centered">
+            
+            <!-- col 0 - sketch -->
+            <div class="column">
+              <div class="content">
+                <div class="tab_container">
+                  <img src="./static/images/swap_sketch/sketch/WhiteVest_test_0_padded_1800_edge_erode_crop.png" alt="WhiteVest_sketch">
+                </div>
+              </div>
+            </div>
+            
+            <!-- col 1 -->
+            <div class="column">
+              <div class="content">
+                <div class="tab_container">
+                  <div id="juxtapose-embed1" data-startingposition="50%" data-animate="true" class="juxtapose">
+                    <div class="jx-slider">
+                      <div class="jx-handle " style="left: 54.53%;">
+                        <div class="jx-arrow jx-left"></div>
+                        <div class="jx-control">
+                          <div class="jx-controller" tabindex="0" role="slider" aria-valuenow="50" aria-valuemin="0"
+                            aria-valuemax="100"></div>
+                        </div>
+                        <div class="jx-arrow jx-right"></div>
+                      </div>
+                      <div class="jx-image jx-left " style="width: 54.53%;">
+                        <img src="./static/images/swap_sketch/WhiteVest_WhiteVest/fake_I/WhiteVest_test_0_padded_1800_edge_masked.png" alt="" data-label="Visual">
+                      </div>
+                      <div class="jx-image jx-right " style="width: 45.47%;">
+                        <img src="./static/images/swap_sketch/WhiteVest_WhiteVest/fake_N/WhiteVest_test_0_padded_1800_edge_masked.png" alt="" data-label="Tactile">
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+            <!-- col 2 -->
+            <div class="column">
+              <div class="content">
+                <div class="tab_container">
+                  <div id="juxtapose-embed2" data-startingposition="50%" data-animate="true" class="juxtapose">
+                    <div class="jx-slider">
+                      <div class="jx-handle " style="left: 54.53%;">
+                        <div class="jx-arrow jx-left"></div>
+                        <div class="jx-control">
+                          <div class="jx-controller" tabindex="0" role="slider" aria-valuenow="50" aria-valuemin="0"
+                            aria-valuemax="100"></div>
+                        </div>
+                        <div class="jx-arrow jx-right"></div>
+                      </div>
+                      <div class="jx-image jx-left " style="width: 54.53%;">
+                        <img src="./static/images/swap_sketch/WhiteTshirt_WhiteVest/fake_I/WhiteVest_test_0_padded_1800_edit0_edge_masked.png" alt="" data-label="Visual">
+                      </div>
+                      <div class="jx-image jx-right " style="width: 45.47%;">
+                        <img src="./static/images/swap_sketch/WhiteTshirt_WhiteVest/fake_N/WhiteVest_test_0_padded_1800_edit0_edge_masked.png" alt="" data-label="Tactile">
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+            <!-- col 3 -->
+            <div class="column">
+              <div class="content">
+                <div class="tab_container">
+                  <div id="juxtapose-embed1" data-startingposition="30%" data-animate="true" class="juxtapose">
+                    <div class="jx-slider">
+                      <div class="jx-handle " style="left: 54.53%;">
+                        <div class="jx-arrow jx-left"></div>
+                        <div class="jx-control">
+                          <div class="jx-controller" tabindex="0" role="slider" aria-valuenow="50" aria-valuemin="0"
+                            aria-valuemax="100"></div>
+                        </div>
+                        <div class="jx-arrow jx-right"></div>
+                      </div>
+                      <div class="jx-image jx-left " style="width: 54.53%;">
+                        <img src="./static/images/swap_sketch/GreenSkirt_WhiteVest/fake_I/WhiteVest_test_0_padded_1800_edit0_edge_masked.png" alt="" data-label="Visual">
+                      </div>
+                      <div class="jx-image jx-right " style="width: 45.47%;">
+                        <img src="./static/images/swap_sketch/GreenSkirt_WhiteVest/fake_N/WhiteVest_test_0_padded_1800_edit0_edge_masked.png" alt="" data-label="Tactile">
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- col 4 -->
+            <div class="column">
+              <div class="content">
+                <div class="tab_container">
+                  <div id="juxtapose-embed2" data-startingposition="50%" data-animate="true" class="juxtapose">
+                    <div class="jx-slider">
+                      <div class="jx-handle " style="left: 54.53%;">
+                        <div class="jx-arrow jx-left"></div>
+                        <div class="jx-control">
+                          <div class="jx-controller" tabindex="0" role="slider" aria-valuenow="50" aria-valuemin="0"
+                            aria-valuemax="100"></div>
+                        </div>
+                        <div class="jx-arrow jx-right"></div>
+                      </div>
+                      <div class="jx-image jx-left " style="width: 54.53%;">
+                        <img src="./static/images/swap_sketch/BluePants_WhiteVest/fake_I/WhiteVest_test_0_padded_1800_edit0_edge_masked.png" alt="" data-label="Visual">
+                      </div>
+                      <div class="jx-image jx-right " style="width: 45.47%;">
+                        <img src="./static/images/swap_sketch/BluePants_WhiteVest/fake_N/WhiteVest_test_0_padded_1800_edit0_edge_masked.png" alt="" data-label="Tactile">
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+
+          <!-- row 2 -->
+          <div class="columns is-centered">
+
+            <!-- col 0 - sketch -->
+            <div class="column">
+              <div class="content">
+                <div class="tab_container">
+                  <img src="./static/images/swap_sketch/sketch/WhiteTshirt_test_0_padded_1800_edge_erode_crop.png" alt="WhiteVest_sketch">
+                </div>
+              </div>
+            </div>
+
+            <!-- col 1 -->
+            <div class="column">
+              <div class="content">
+                <div class="tab_container">
+                  <div id="juxtapose-embed1" data-startingposition="50%" data-animate="true" class="juxtapose">
+                    <div class="jx-slider">
+                      <div class="jx-handle " style="left: 54.53%;">
+                        <div class="jx-arrow jx-left"></div>
+                        <div class="jx-control">
+                          <div class="jx-controller" tabindex="0" role="slider" aria-valuenow="50" aria-valuemin="0"
+                            aria-valuemax="100"></div>
+                        </div>
+                        <div class="jx-arrow jx-right"></div>
+                      </div>
+                      <div class="jx-image jx-left " style="width: 54.53%;">
+                        <img src="./static/images/swap_sketch/WhiteVest_WhiteTshirt/fake_I/WhiteTshirt_test_0_padded_1800_edit0_edge_masked.png" alt="" data-label="Visual">
+                      </div>
+                      <div class="jx-image jx-right " style="width: 45.47%;">
+                        <img src="./static/images/swap_sketch/WhiteVest_WhiteTshirt/fake_N/WhiteTshirt_test_0_padded_1800_edit0_edge_masked.png" alt="" data-label="Tactile">
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+            <!-- col 2 -->
+            <div class="column">
+              <div class="content">
+                <div class="tab_container">
+                  <div id="juxtapose-embed2" data-startingposition="50%" data-animate="true" class="juxtapose">
+                    <div class="jx-slider">
+                      <div class="jx-handle " style="left: 54.53%;">
+                        <div class="jx-arrow jx-left"></div>
+                        <div class="jx-control">
+                          <div class="jx-controller" tabindex="0" role="slider" aria-valuenow="50" aria-valuemin="0"
+                            aria-valuemax="100"></div>
+                        </div>
+                        <div class="jx-arrow jx-right"></div>
+                      </div>
+                      <div class="jx-image jx-left " style="width: 54.53%;">
+                        <img src="./static/images/swap_sketch/WhiteTshirt_WhiteTshirt/fake_I/WhiteTshirt_test_0_padded_1800_edge_masked.png" alt="" data-label="Visual">
+                      </div>
+                      <div class="jx-image jx-right " style="width: 45.47%;">
+                        <img src="./static/images/swap_sketch/WhiteTshirt_WhiteTshirt/fake_N/WhiteTshirt_test_0_padded_1800_edge_masked.png" alt="" data-label="Tactile">
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+            <!-- col 3 -->
+            <div class="column">
+              <div class="content">
+                <div class="tab_container">
+                  <div id="juxtapose-embed1" data-startingposition="50%" data-animate="true" class="juxtapose">
+                    <div class="jx-slider">
+                      <div class="jx-handle " style="left: 54.53%;">
+                        <div class="jx-arrow jx-left"></div>
+                        <div class="jx-control">
+                          <div class="jx-controller" tabindex="0" role="slider" aria-valuenow="50" aria-valuemin="0"
+                            aria-valuemax="100"></div>
+                        </div>
+                        <div class="jx-arrow jx-right"></div>
+                      </div>
+                      <div class="jx-image jx-left " style="width: 54.53%;">
+                        <img src="./static/images/swap_sketch/GreenSkirt_WhiteTshirt/fake_I/WhiteTshirt_test_0_padded_1800_edit0_edge_masked.png" alt="" data-label="Visual">
+                      </div>
+                      <div class="jx-image jx-right " style="width: 45.47%;">
+                        <img src="./static/images/swap_sketch/GreenSkirt_WhiteTshirt/fake_N/WhiteTshirt_test_0_padded_1800_edit0_edge_masked.png" alt="" data-label="Tactile">
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- col 4 -->
+            <div class="column">
+              <div class="content">
+                <div class="tab_container">
+                  <div id="juxtapose-embed2" data-startingposition="50%" data-animate="true" class="juxtapose">
+                    <div class="jx-slider">
+                      <div class="jx-handle " style="left: 54.53%;">
+                        <div class="jx-arrow jx-left"></div>
+                        <div class="jx-control">
+                          <div class="jx-controller" tabindex="0" role="slider" aria-valuenow="50" aria-valuemin="0"
+                            aria-valuemax="100"></div>
+                        </div>
+                        <div class="jx-arrow jx-right"></div>
+                      </div>
+                      <div class="jx-image jx-left " style="width: 54.53%;">
+                        <img src="./static/images/swap_sketch/BluePants_WhiteTshirt/fake_I/WhiteTshirt_test_0_padded_1800_edit0_edge_masked.png" alt="" data-label="Visual">
+                      </div>
+                      <div class="jx-image jx-right " style="width: 45.47%;">
+                        <img src="./static/images/swap_sketch/BluePants_WhiteTshirt/fake_N/WhiteTshirt_test_0_padded_1800_edit0_edge_masked.png" alt="" data-label="Tactile">
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+          
+          <!-- row 3 -->
+          <div class="columns is-centered">
+            
+            <!-- col 0 - sketch -->
+            <div class="column">
+              <div class="content">
+                <div class="tab_container">
+                  <img src="./static/images/swap_sketch/sketch/GreenSkirt_test_0_padded_1800_edge_erode_crop.png" alt="WhiteVest_sketch">
+                </div>
+              </div>
+            </div>   
+
+            <!-- col 1 -->
+            <div class="column">
+              <div class="content">
+                <div class="tab_container">
+                  <div id="juxtapose-embed1" data-startingposition="50%" data-animate="true" class="juxtapose">
+                    <div class="jx-slider">
+                      <div class="jx-handle " style="left: 54.53%;">
+                        <div class="jx-arrow jx-left"></div>
+                        <div class="jx-control">
+                          <div class="jx-controller" tabindex="0" role="slider" aria-valuenow="50" aria-valuemin="0"
+                            aria-valuemax="100"></div>
+                        </div>
+                        <div class="jx-arrow jx-right"></div>
+                      </div>
+                      <div class="jx-image jx-left " style="width: 54.53%;">
+                        <img src="./static/images/swap_sketch/WhiteVest_GreenSkirt/fake_I/GreenSkirt_test_0_padded_1800_edit0_edge_masked.png" alt="" data-label="Visual">
+                      </div>
+                      <div class="jx-image jx-right " style="width: 45.47%;">
+                        <img src="./static/images/swap_sketch/WhiteVest_GreenSkirt/fake_N/GreenSkirt_test_0_padded_1800_edit0_edge_masked.png" alt="" data-label="Tactile">
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+            <!-- col 2 -->
+            <div class="column">
+              <div class="content">
+                <div class="tab_container">
+                  <div id="juxtapose-embed2" data-startingposition="50%" data-animate="true" class="juxtapose">
+                    <div class="jx-slider">
+                      <div class="jx-handle " style="left: 54.53%;">
+                        <div class="jx-arrow jx-left"></div>
+                        <div class="jx-control">
+                          <div class="jx-controller" tabindex="0" role="slider" aria-valuenow="50" aria-valuemin="0"
+                            aria-valuemax="100"></div>
+                        </div>
+                        <div class="jx-arrow jx-right"></div>
+                      </div>
+                      <div class="jx-image jx-left " style="width: 54.53%;">
+                        <img src="./static/images/swap_sketch/WhiteTshirt_GreenSkirt/fake_I/GreenSkirt_test_0_padded_1800_edit0_edge_masked.png" alt="" data-label="Visual">
+                      </div>
+                      <div class="jx-image jx-right " style="width: 45.47%;">
+                        <img src="./static/images/swap_sketch/WhiteTshirt_GreenSkirt/fake_N/GreenSkirt_test_0_padded_1800_edit0_edge_masked.png" alt="" data-label="Tactile">
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+            <!-- col 3 -->
+            <div class="column">
+              <div class="content">
+                <div class="tab_container">
+                  <div id="juxtapose-embed1" data-startingposition="50%" data-animate="true" class="juxtapose">
+                    <div class="jx-slider">
+                      <div class="jx-handle " style="left: 54.53%;">
+                        <div class="jx-arrow jx-left"></div>
+                        <div class="jx-control">
+                          <div class="jx-controller" tabindex="0" role="slider" aria-valuenow="50" aria-valuemin="0"
+                            aria-valuemax="100"></div>
+                        </div>
+                        <div class="jx-arrow jx-right"></div>
+                      </div>
+                      <div class="jx-image jx-left " style="width: 54.53%;">
+                        <img src="./static/images/swap_sketch/GreenSkirt_GreenSkirt/fake_I/GreenSkirt_test_0_padded_1800_edge_masked.png" alt="" data-label="Visual">
+                      </div>
+                      <div class="jx-image jx-right " style="width: 45.47%;">
+                        <img src="./static/images/swap_sketch/GreenSkirt_GreenSkirt/fake_N/GreenSkirt_test_0_padded_1800_edge_masked.png" alt="" data-label="Tactile">
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- col 4 -->
+            <div class="column">
+              <div class="content">
+                <div class="tab_container">
+                  <div id="juxtapose-embed2" data-startingposition="50%" data-animate="true" class="juxtapose">
+                    <div class="jx-slider">
+                      <div class="jx-handle " style="left: 54.53%;">
+                        <div class="jx-arrow jx-left"></div>
+                        <div class="jx-control">
+                          <div class="jx-controller" tabindex="0" role="slider" aria-valuenow="50" aria-valuemin="0"
+                            aria-valuemax="100"></div>
+                        </div>
+                        <div class="jx-arrow jx-right"></div>
+                      </div>
+                      <div class="jx-image jx-left " style="width: 54.53%;">
+                        <img src="./static/images/swap_sketch/BluePants_GreenSkirt/fake_I/GreenSkirt_test_0_padded_1800_edit0_edge_masked.png" alt="" data-label="Visual">
+                      </div>
+                      <div class="jx-image jx-right " style="width: 45.47%;">
+                        <img src="./static/images/swap_sketch/BluePants_GreenSkirt/fake_N/GreenSkirt_test_0_padded_1800_edit0_edge_masked.png" alt="" data-label="Tactile">
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+          </div>         
+
+          <!-- row 4 -->
+          <div class="columns is-centered">
+
+            <!-- col 0 - sketch -->
+            <div class="column">
+              <div class="content">
+                <div class="tab_container">
+                  <img src="./static/images/swap_sketch/sketch/BluePants_test_0_padded_1800_edge_erode_crop.png" alt="WhiteVest_sketch">
+                </div>
+              </div>
+            </div>
+
+            <!-- col 1 -->
+            <div class="column">
+              <div class="content">
+                <div class="tab_container">
+                  <div id="juxtapose-embed1" data-startingposition="50%" data-animate="true" class="juxtapose">
+                    <div class="jx-slider">
+                      <div class="jx-handle " style="left: 54.53%;">
+                        <div class="jx-arrow jx-left"></div>
+                        <div class="jx-control">
+                          <div class="jx-controller" tabindex="0" role="slider" aria-valuenow="50" aria-valuemin="0"
+                            aria-valuemax="100"></div>
+                        </div>
+                        <div class="jx-arrow jx-right"></div>
+                      </div>
+                      <div class="jx-image jx-left " style="width: 54.53%;">
+                        <img src="./static/images/swap_sketch/WhiteVest_BluePants/fake_I/BluePants_test_0_padded_1800_edit0_edge_masked.png" alt="" data-label="Visual">
+                      </div>
+                      <div class="jx-image jx-right " style="width: 45.47%;">
+                        <img src="./static/images/swap_sketch/WhiteVest_BluePants/fake_N/BluePants_test_0_padded_1800_edit0_edge_masked.png" alt="" data-label="Tactile">
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+            <!-- col 2 -->
+            <div class="column">
+              <div class="content">
+                <div class="tab_container">
+                  <div id="juxtapose-embed2" data-startingposition="50%" data-animate="true" class="juxtapose">
+                    <div class="jx-slider">
+                      <div class="jx-handle " style="left: 54.53%;">
+                        <div class="jx-arrow jx-left"></div>
+                        <div class="jx-control">
+                          <div class="jx-controller" tabindex="0" role="slider" aria-valuenow="50" aria-valuemin="0"
+                            aria-valuemax="100"></div>
+                        </div>
+                        <div class="jx-arrow jx-right"></div>
+                      </div>
+                      <div class="jx-image jx-left " style="width: 54.53%;">
+                        <img src="./static/images/swap_sketch/WhiteTshirt_BluePants/fake_I/BluePants_test_0_padded_1800_edit0_edge_masked.png" alt="" data-label="Visual">
+                      </div>
+                      <div class="jx-image jx-right " style="width: 45.47%;">
+                        <img src="./static/images/swap_sketch/WhiteTshirt_BluePants/fake_N/BluePants_test_0_padded_1800_edit0_edge_masked.png" alt="" data-label="Tactile">
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+            <!-- col 3 -->
+            <div class="column">
+              <div class="content">
+                <div class="tab_container">
+                  <div id="juxtapose-embed1" data-startingposition="50%" data-animate="true" class="juxtapose">
+                    <div class="jx-slider">
+                      <div class="jx-handle " style="left: 54.53%;">
+                        <div class="jx-arrow jx-left"></div>
+                        <div class="jx-control">
+                          <div class="jx-controller" tabindex="0" role="slider" aria-valuenow="50" aria-valuemin="0"
+                            aria-valuemax="100"></div>
+                        </div>
+                        <div class="jx-arrow jx-right"></div>
+                      </div>
+                      <div class="jx-image jx-left " style="width: 54.53%;">
+                        <img src="./static/images/swap_sketch/GreenSkirt_BluePants/fake_I/BluePants_test_0_padded_1800_edit0_edge_masked.png" alt="" data-label="Visual">
+                      </div>
+                      <div class="jx-image jx-right " style="width: 45.47%;">
+                        <img src="./static/images/swap_sketch/GreenSkirt_BluePants/fake_N/BluePants_test_0_padded_1800_edit0_edge_masked.png" alt="" data-label="Tactile">
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- col 4 -->
+            <div class="column">
+              <div class="content">
+                <div class="tab_container">
+                  <div id="juxtapose-embed2" data-startingposition="50%" data-animate="true" class="juxtapose">
+                    <div class="jx-slider">
+                      <div class="jx-handle " style="left: 54.53%;">
+                        <div class="jx-arrow jx-left"></div>
+                        <div class="jx-control">
+                          <div class="jx-controller" tabindex="0" role="slider" aria-valuenow="50" aria-valuemin="0"
+                            aria-valuemax="100"></div>
+                        </div>
+                        <div class="jx-arrow jx-right"></div>
+                      </div>
+                      <div class="jx-image jx-left " style="width: 54.53%;">
+                        <img src="./static/images/swap_sketch/BluePants_BluePants/fake_I/BluePants_test_0_padded_1800_edge_masked.png" alt="" data-label="Visual">
+                      </div>
+                      <div class="jx-image jx-right " style="width: 45.47%;">
+                        <img src="./static/images/swap_sketch/BluePants_BluePants/fake_N/BluePants_test_0_padded_1800_edge_masked.png" alt="" data-label="Tactile">
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+          </div>         
+
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TODO: resume editing from here -->
+<section class="section">
+  <div class="container is-max-desktop">
+    <div class="columns is-centered">
+      <div class="column is-full-width">
+        <h2 class="title is-3 has-text-centered">Results: swapping different materials</h2>
+        <div class="content has-text-justified">
+          <p>
+            Here we show the generated visual and tactile output. The leftmost column shows the testing sketch input, and the rest columns show the generated visual and tactile outputs. The tactile outputs are shown in surface normal maps to represent the geometry information. Our model can generate high-quality visual and tactile outputs for various clothing categories, in terms of both global shape and local textures.
+          </p>
+          
+          <!-- row 1 -->
+          <div class="columns is-centered">
+            
+            <!-- col 0 - sketch -->
+            <div class="column">
+              <div class="content">
+                <div class="tab_container">
+                  <img src="./static/images/swap_sketch/sketch/WhiteVest_test_0_padded_1800_edge_erode_crop.png" alt="WhiteVest_sketch">
+                </div>
+              </div>
+            </div>
+            
+            <!-- col 1 -->
+            <div class="column">
+              <div class="content">
+                <div class="tab_container">
+                  <div id="juxtapose-embed1" data-startingposition="50%" data-animate="true" class="juxtapose">
+                    <div class="jx-slider">
+                      <div class="jx-handle " style="left: 54.53%;">
+                        <div class="jx-arrow jx-left"></div>
+                        <div class="jx-control">
+                          <div class="jx-controller" tabindex="0" role="slider" aria-valuenow="50" aria-valuemin="0"
+                            aria-valuemax="100"></div>
+                        </div>
+                        <div class="jx-arrow jx-right"></div>
+                      </div>
+                      <div class="jx-image jx-left " style="width: 54.53%;">
+                        <img src="./static/images/swap_sketch/WhiteVest_WhiteVest/fake_I/WhiteVest_test_0_padded_1800_edge_masked.png" alt="" data-label="Visual">
+                      </div>
+                      <div class="jx-image jx-right " style="width: 45.47%;">
+                        <img src="./static/images/swap_sketch/WhiteVest_WhiteVest/fake_N/WhiteVest_test_0_padded_1800_edge_masked.png" alt="" data-label="Tactile">
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+            <!-- col 2 -->
+            <div class="column">
+              <div class="content">
+                <div class="tab_container">
+                  <div id="juxtapose-embed2" data-startingposition="50%" data-animate="true" class="juxtapose">
+                    <div class="jx-slider">
+                      <div class="jx-handle " style="left: 54.53%;">
+                        <div class="jx-arrow jx-left"></div>
+                        <div class="jx-control">
+                          <div class="jx-controller" tabindex="0" role="slider" aria-valuenow="50" aria-valuemin="0"
+                            aria-valuemax="100"></div>
+                        </div>
+                        <div class="jx-arrow jx-right"></div>
+                      </div>
+                      <div class="jx-image jx-left " style="width: 54.53%;">
+                        <img src="./static/images/swap_sketch/WhiteTshirt_WhiteVest/fake_I/WhiteVest_test_0_padded_1800_edit0_edge_masked.png" alt="" data-label="Visual">
+                      </div>
+                      <div class="jx-image jx-right " style="width: 45.47%;">
+                        <img src="./static/images/swap_sketch/WhiteTshirt_WhiteVest/fake_N/WhiteVest_test_0_padded_1800_edit0_edge_masked.png" alt="" data-label="Tactile">
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+            <!-- col 3 -->
+            <div class="column">
+              <div class="content">
+                <div class="tab_container">
+                  <div id="juxtapose-embed1" data-startingposition="30%" data-animate="true" class="juxtapose">
+                    <div class="jx-slider">
+                      <div class="jx-handle " style="left: 54.53%;">
+                        <div class="jx-arrow jx-left"></div>
+                        <div class="jx-control">
+                          <div class="jx-controller" tabindex="0" role="slider" aria-valuenow="50" aria-valuemin="0"
+                            aria-valuemax="100"></div>
+                        </div>
+                        <div class="jx-arrow jx-right"></div>
+                      </div>
+                      <div class="jx-image jx-left " style="width: 54.53%;">
+                        <img src="./static/images/swap_sketch/GreenSkirt_WhiteVest/fake_I/WhiteVest_test_0_padded_1800_edit0_edge_masked.png" alt="" data-label="Visual">
+                      </div>
+                      <div class="jx-image jx-right " style="width: 45.47%;">
+                        <img src="./static/images/swap_sketch/GreenSkirt_WhiteVest/fake_N/WhiteVest_test_0_padded_1800_edit0_edge_masked.png" alt="" data-label="Tactile">
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- col 4 -->
+            <div class="column">
+              <div class="content">
+                <div class="tab_container">
+                  <div id="juxtapose-embed2" data-startingposition="50%" data-animate="true" class="juxtapose">
+                    <div class="jx-slider">
+                      <div class="jx-handle " style="left: 54.53%;">
+                        <div class="jx-arrow jx-left"></div>
+                        <div class="jx-control">
+                          <div class="jx-controller" tabindex="0" role="slider" aria-valuenow="50" aria-valuemin="0"
+                            aria-valuemax="100"></div>
+                        </div>
+                        <div class="jx-arrow jx-right"></div>
+                      </div>
+                      <div class="jx-image jx-left " style="width: 54.53%;">
+                        <img src="./static/images/swap_sketch/BluePants_WhiteVest/fake_I/WhiteVest_test_0_padded_1800_edit0_edge_masked.png" alt="" data-label="Visual">
+                      </div>
+                      <div class="jx-image jx-right " style="width: 45.47%;">
+                        <img src="./static/images/swap_sketch/BluePants_WhiteVest/fake_N/WhiteVest_test_0_padded_1800_edit0_edge_masked.png" alt="" data-label="Tactile">
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+
+          <!-- row 2 -->
+          <div class="columns is-centered">
+
+            <!-- col 0 - sketch -->
+            <div class="column">
+              <div class="content">
+                <div class="tab_container">
+                  <img src="./static/images/swap_sketch/sketch/WhiteTshirt_test_0_padded_1800_edge_erode_crop.png" alt="WhiteVest_sketch">
+                </div>
+              </div>
+            </div>
+
+            <!-- col 1 -->
+            <div class="column">
+              <div class="content">
+                <div class="tab_container">
+                  <div id="juxtapose-embed1" data-startingposition="50%" data-animate="true" class="juxtapose">
+                    <div class="jx-slider">
+                      <div class="jx-handle " style="left: 54.53%;">
+                        <div class="jx-arrow jx-left"></div>
+                        <div class="jx-control">
+                          <div class="jx-controller" tabindex="0" role="slider" aria-valuenow="50" aria-valuemin="0"
+                            aria-valuemax="100"></div>
+                        </div>
+                        <div class="jx-arrow jx-right"></div>
+                      </div>
+                      <div class="jx-image jx-left " style="width: 54.53%;">
+                        <img src="./static/images/swap_sketch/WhiteVest_WhiteTshirt/fake_I/WhiteTshirt_test_0_padded_1800_edit0_edge_masked.png" alt="" data-label="Visual">
+                      </div>
+                      <div class="jx-image jx-right " style="width: 45.47%;">
+                        <img src="./static/images/swap_sketch/WhiteVest_WhiteTshirt/fake_N/WhiteTshirt_test_0_padded_1800_edit0_edge_masked.png" alt="" data-label="Tactile">
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+            <!-- col 2 -->
+            <div class="column">
+              <div class="content">
+                <div class="tab_container">
+                  <div id="juxtapose-embed2" data-startingposition="50%" data-animate="true" class="juxtapose">
+                    <div class="jx-slider">
+                      <div class="jx-handle " style="left: 54.53%;">
+                        <div class="jx-arrow jx-left"></div>
+                        <div class="jx-control">
+                          <div class="jx-controller" tabindex="0" role="slider" aria-valuenow="50" aria-valuemin="0"
+                            aria-valuemax="100"></div>
+                        </div>
+                        <div class="jx-arrow jx-right"></div>
+                      </div>
+                      <div class="jx-image jx-left " style="width: 54.53%;">
+                        <img src="./static/images/swap_sketch/WhiteTshirt_WhiteTshirt/fake_I/WhiteTshirt_test_0_padded_1800_edge_masked.png" alt="" data-label="Visual">
+                      </div>
+                      <div class="jx-image jx-right " style="width: 45.47%;">
+                        <img src="./static/images/swap_sketch/WhiteTshirt_WhiteTshirt/fake_N/WhiteTshirt_test_0_padded_1800_edge_masked.png" alt="" data-label="Tactile">
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+            <!-- col 3 -->
+            <div class="column">
+              <div class="content">
+                <div class="tab_container">
+                  <div id="juxtapose-embed1" data-startingposition="50%" data-animate="true" class="juxtapose">
+                    <div class="jx-slider">
+                      <div class="jx-handle " style="left: 54.53%;">
+                        <div class="jx-arrow jx-left"></div>
+                        <div class="jx-control">
+                          <div class="jx-controller" tabindex="0" role="slider" aria-valuenow="50" aria-valuemin="0"
+                            aria-valuemax="100"></div>
+                        </div>
+                        <div class="jx-arrow jx-right"></div>
+                      </div>
+                      <div class="jx-image jx-left " style="width: 54.53%;">
+                        <img src="./static/images/swap_sketch/GreenSkirt_WhiteTshirt/fake_I/WhiteTshirt_test_0_padded_1800_edit0_edge_masked.png" alt="" data-label="Visual">
+                      </div>
+                      <div class="jx-image jx-right " style="width: 45.47%;">
+                        <img src="./static/images/swap_sketch/GreenSkirt_WhiteTshirt/fake_N/WhiteTshirt_test_0_padded_1800_edit0_edge_masked.png" alt="" data-label="Tactile">
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- col 4 -->
+            <div class="column">
+              <div class="content">
+                <div class="tab_container">
+                  <div id="juxtapose-embed2" data-startingposition="50%" data-animate="true" class="juxtapose">
+                    <div class="jx-slider">
+                      <div class="jx-handle " style="left: 54.53%;">
+                        <div class="jx-arrow jx-left"></div>
+                        <div class="jx-control">
+                          <div class="jx-controller" tabindex="0" role="slider" aria-valuenow="50" aria-valuemin="0"
+                            aria-valuemax="100"></div>
+                        </div>
+                        <div class="jx-arrow jx-right"></div>
+                      </div>
+                      <div class="jx-image jx-left " style="width: 54.53%;">
+                        <img src="./static/images/swap_sketch/BluePants_WhiteTshirt/fake_I/WhiteTshirt_test_0_padded_1800_edit0_edge_masked.png" alt="" data-label="Visual">
+                      </div>
+                      <div class="jx-image jx-right " style="width: 45.47%;">
+                        <img src="./static/images/swap_sketch/BluePants_WhiteTshirt/fake_N/WhiteTshirt_test_0_padded_1800_edit0_edge_masked.png" alt="" data-label="Tactile">
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+          
+          <!-- row 3 -->
+          <div class="columns is-centered">
+            
+            <!-- col 0 - sketch -->
+            <div class="column">
+              <div class="content">
+                <div class="tab_container">
+                  <img src="./static/images/swap_sketch/sketch/GreenSkirt_test_0_padded_1800_edge_erode_crop.png" alt="WhiteVest_sketch">
+                </div>
+              </div>
+            </div>   
+
+            <!-- col 1 -->
+            <div class="column">
+              <div class="content">
+                <div class="tab_container">
+                  <div id="juxtapose-embed1" data-startingposition="50%" data-animate="true" class="juxtapose">
+                    <div class="jx-slider">
+                      <div class="jx-handle " style="left: 54.53%;">
+                        <div class="jx-arrow jx-left"></div>
+                        <div class="jx-control">
+                          <div class="jx-controller" tabindex="0" role="slider" aria-valuenow="50" aria-valuemin="0"
+                            aria-valuemax="100"></div>
+                        </div>
+                        <div class="jx-arrow jx-right"></div>
+                      </div>
+                      <div class="jx-image jx-left " style="width: 54.53%;">
+                        <img src="./static/images/swap_sketch/WhiteVest_GreenSkirt/fake_I/GreenSkirt_test_0_padded_1800_edit0_edge_masked.png" alt="" data-label="Visual">
+                      </div>
+                      <div class="jx-image jx-right " style="width: 45.47%;">
+                        <img src="./static/images/swap_sketch/WhiteVest_GreenSkirt/fake_N/GreenSkirt_test_0_padded_1800_edit0_edge_masked.png" alt="" data-label="Tactile">
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+            <!-- col 2 -->
+            <div class="column">
+              <div class="content">
+                <div class="tab_container">
+                  <div id="juxtapose-embed2" data-startingposition="50%" data-animate="true" class="juxtapose">
+                    <div class="jx-slider">
+                      <div class="jx-handle " style="left: 54.53%;">
+                        <div class="jx-arrow jx-left"></div>
+                        <div class="jx-control">
+                          <div class="jx-controller" tabindex="0" role="slider" aria-valuenow="50" aria-valuemin="0"
+                            aria-valuemax="100"></div>
+                        </div>
+                        <div class="jx-arrow jx-right"></div>
+                      </div>
+                      <div class="jx-image jx-left " style="width: 54.53%;">
+                        <img src="./static/images/swap_sketch/WhiteTshirt_GreenSkirt/fake_I/GreenSkirt_test_0_padded_1800_edit0_edge_masked.png" alt="" data-label="Visual">
+                      </div>
+                      <div class="jx-image jx-right " style="width: 45.47%;">
+                        <img src="./static/images/swap_sketch/WhiteTshirt_GreenSkirt/fake_N/GreenSkirt_test_0_padded_1800_edit0_edge_masked.png" alt="" data-label="Tactile">
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+            <!-- col 3 -->
+            <div class="column">
+              <div class="content">
+                <div class="tab_container">
+                  <div id="juxtapose-embed1" data-startingposition="50%" data-animate="true" class="juxtapose">
+                    <div class="jx-slider">
+                      <div class="jx-handle " style="left: 54.53%;">
+                        <div class="jx-arrow jx-left"></div>
+                        <div class="jx-control">
+                          <div class="jx-controller" tabindex="0" role="slider" aria-valuenow="50" aria-valuemin="0"
+                            aria-valuemax="100"></div>
+                        </div>
+                        <div class="jx-arrow jx-right"></div>
+                      </div>
+                      <div class="jx-image jx-left " style="width: 54.53%;">
+                        <img src="./static/images/swap_sketch/GreenSkirt_GreenSkirt/fake_I/GreenSkirt_test_0_padded_1800_edge_masked.png" alt="" data-label="Visual">
+                      </div>
+                      <div class="jx-image jx-right " style="width: 45.47%;">
+                        <img src="./static/images/swap_sketch/GreenSkirt_GreenSkirt/fake_N/GreenSkirt_test_0_padded_1800_edge_masked.png" alt="" data-label="Tactile">
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- col 4 -->
+            <div class="column">
+              <div class="content">
+                <div class="tab_container">
+                  <div id="juxtapose-embed2" data-startingposition="50%" data-animate="true" class="juxtapose">
+                    <div class="jx-slider">
+                      <div class="jx-handle " style="left: 54.53%;">
+                        <div class="jx-arrow jx-left"></div>
+                        <div class="jx-control">
+                          <div class="jx-controller" tabindex="0" role="slider" aria-valuenow="50" aria-valuemin="0"
+                            aria-valuemax="100"></div>
+                        </div>
+                        <div class="jx-arrow jx-right"></div>
+                      </div>
+                      <div class="jx-image jx-left " style="width: 54.53%;">
+                        <img src="./static/images/swap_sketch/BluePants_GreenSkirt/fake_I/GreenSkirt_test_0_padded_1800_edit0_edge_masked.png" alt="" data-label="Visual">
+                      </div>
+                      <div class="jx-image jx-right " style="width: 45.47%;">
+                        <img src="./static/images/swap_sketch/BluePants_GreenSkirt/fake_N/GreenSkirt_test_0_padded_1800_edit0_edge_masked.png" alt="" data-label="Tactile">
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+          </div>         
+
+          <!-- row 4 -->
+          <div class="columns is-centered">
+
+            <!-- col 0 - sketch -->
+            <div class="column">
+              <div class="content">
+                <div class="tab_container">
+                  <img src="./static/images/swap_sketch/sketch/BluePants_test_0_padded_1800_edge_erode_crop.png" alt="WhiteVest_sketch">
+                </div>
+              </div>
+            </div>
+
+            <!-- col 1 -->
+            <div class="column">
+              <div class="content">
+                <div class="tab_container">
+                  <div id="juxtapose-embed1" data-startingposition="50%" data-animate="true" class="juxtapose">
+                    <div class="jx-slider">
+                      <div class="jx-handle " style="left: 54.53%;">
+                        <div class="jx-arrow jx-left"></div>
+                        <div class="jx-control">
+                          <div class="jx-controller" tabindex="0" role="slider" aria-valuenow="50" aria-valuemin="0"
+                            aria-valuemax="100"></div>
+                        </div>
+                        <div class="jx-arrow jx-right"></div>
+                      </div>
+                      <div class="jx-image jx-left " style="width: 54.53%;">
+                        <img src="./static/images/swap_sketch/WhiteVest_BluePants/fake_I/BluePants_test_0_padded_1800_edit0_edge_masked.png" alt="" data-label="Visual">
+                      </div>
+                      <div class="jx-image jx-right " style="width: 45.47%;">
+                        <img src="./static/images/swap_sketch/WhiteVest_BluePants/fake_N/BluePants_test_0_padded_1800_edit0_edge_masked.png" alt="" data-label="Tactile">
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+            <!-- col 2 -->
+            <div class="column">
+              <div class="content">
+                <div class="tab_container">
+                  <div id="juxtapose-embed2" data-startingposition="50%" data-animate="true" class="juxtapose">
+                    <div class="jx-slider">
+                      <div class="jx-handle " style="left: 54.53%;">
+                        <div class="jx-arrow jx-left"></div>
+                        <div class="jx-control">
+                          <div class="jx-controller" tabindex="0" role="slider" aria-valuenow="50" aria-valuemin="0"
+                            aria-valuemax="100"></div>
+                        </div>
+                        <div class="jx-arrow jx-right"></div>
+                      </div>
+                      <div class="jx-image jx-left " style="width: 54.53%;">
+                        <img src="./static/images/swap_sketch/WhiteTshirt_BluePants/fake_I/BluePants_test_0_padded_1800_edit0_edge_masked.png" alt="" data-label="Visual">
+                      </div>
+                      <div class="jx-image jx-right " style="width: 45.47%;">
+                        <img src="./static/images/swap_sketch/WhiteTshirt_BluePants/fake_N/BluePants_test_0_padded_1800_edit0_edge_masked.png" alt="" data-label="Tactile">
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+            <!-- col 3 -->
+            <div class="column">
+              <div class="content">
+                <div class="tab_container">
+                  <div id="juxtapose-embed1" data-startingposition="50%" data-animate="true" class="juxtapose">
+                    <div class="jx-slider">
+                      <div class="jx-handle " style="left: 54.53%;">
+                        <div class="jx-arrow jx-left"></div>
+                        <div class="jx-control">
+                          <div class="jx-controller" tabindex="0" role="slider" aria-valuenow="50" aria-valuemin="0"
+                            aria-valuemax="100"></div>
+                        </div>
+                        <div class="jx-arrow jx-right"></div>
+                      </div>
+                      <div class="jx-image jx-left " style="width: 54.53%;">
+                        <img src="./static/images/swap_sketch/GreenSkirt_BluePants/fake_I/BluePants_test_0_padded_1800_edit0_edge_masked.png" alt="" data-label="Visual">
+                      </div>
+                      <div class="jx-image jx-right " style="width: 45.47%;">
+                        <img src="./static/images/swap_sketch/GreenSkirt_BluePants/fake_N/BluePants_test_0_padded_1800_edit0_edge_masked.png" alt="" data-label="Tactile">
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- col 4 -->
+            <div class="column">
+              <div class="content">
+                <div class="tab_container">
+                  <div id="juxtapose-embed2" data-startingposition="50%" data-animate="true" class="juxtapose">
+                    <div class="jx-slider">
+                      <div class="jx-handle " style="left: 54.53%;">
+                        <div class="jx-arrow jx-left"></div>
+                        <div class="jx-control">
+                          <div class="jx-controller" tabindex="0" role="slider" aria-valuenow="50" aria-valuemin="0"
+                            aria-valuemax="100"></div>
+                        </div>
+                        <div class="jx-arrow jx-right"></div>
+                      </div>
+                      <div class="jx-image jx-left " style="width: 54.53%;">
+                        <img src="./static/images/swap_sketch/BluePants_BluePants/fake_I/BluePants_test_0_padded_1800_edge_masked.png" alt="" data-label="Visual">
+                      </div>
+                      <div class="jx-image jx-right " style="width: 45.47%;">
+                        <img src="./static/images/swap_sketch/BluePants_BluePants/fake_N/BluePants_test_0_padded_1800_edge_masked.png" alt="" data-label="Tactile">
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+          </div>         
+
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- Dataset, show a video of setup, collection demo, sample data, and overview of the dataset -->
+<section class="section">
+    <div class="container is-max-desktop">
+      <div class="columns is-centered">
+        <div class="column is-full-width">
+          <h2 class="title is-3 has-text-centered">Data Acquisition and <i>TouchClothing</i> Dataset</h2>
+          <div class="content">
+            <p>
+              <b>Sensor Setup:</b> We obtain synchronized visual-tactile data by registration with Aruco marker tracking. We use a
+              <a href="http://gelsight.csail.mit.edu/wedge/ICRA2021_Wedge.pdf">GelSight R1.5</a> sensor to capture tactile local geometry. The sensor outputs <i>g<sub>x</sub></i> and <i>g<sub>y</sub></i> represent the image gradient of the surface normal in <i>x</i> and <i>y</i> directions, respectively.
+              We use a <a href="https://www.adafruit.com/product/4561?gclid=Cj0KCQjw6cKiBhD5ARIsAKXUdybGkN44CN6fVneQJ6MiDLM4GTJy8HpWn_hPXFOTu2WuIkHuTGIlZyEaAgMcEALw_wcB">PiCamera</a> mounted on the top for visual capture and aruco marker detection. The video shows a detailed demo.
+              <br><br>
+
+              <b>Data Format:</b> For each object, we have one full sketch, one full visual image, and about 200 tactile patches, covering about 1/6 of the total area.
+              <br><br>
+
+              <b>Dataset:</b> Our dataset contains 
+              <span style=" color: #941120;"><b>20</b></span> garments in total, covering various fabrics commonly seen in the market, such as denim, corduroy, linen, fleece, and knitted material.
+              We also cover diverse object colors and shapes, such as shirts, vest, sweaters, pants, shorts, and skirts.
+
+            </p>
+            <!-- <video id="matting-video" controls playsinline height="100%">
+              <source src="./static/videos/website_dataset_video_v1_voiceover.mp4"
+                      type="video/mp4">
+            </video> -->
+
+            <!-- Embed a Youtube video link for faster loading -->
+            <div class="video-container">
+              <iframe src="https://www.youtube.com/embed/B3d13MkDwKQ" frameborder="0" allowfullscreen></iframe>
+            </div>
+            <div style="text-align: center">
+              <span style=" color: #0475F5; "><a href="https://drive.google.com/file/d/1nYj-cJRq94ZFY80VD0Ba62x1zKYaxFS2/view?usp=sharing">[Download the video here]</a></span></div>
+          </div>
+        </div>
+      </div>
+  </div>
+</section>
+
+<!-- Method, show a video of network architecture and converting to friction map -->
+<section class="section">
+  <div class="container is-max-desktop">
+    <div class="columns is-centered">
+      <div class="column is-full-width">
+        <h2 class="title is-3 has-text-centered">Controllable Visual-Tactile Synthesis</h2>
+        <div class="content has-text-justified">
+          <p>
+            <b>Model overview:</b> Given a sketch input, we concatenate it with the positional encoding of the pixel coordinates and the object mask as the network input. We use U-net as the generator's backbone but split the decoder into two branches from an intermediate layer for visual and tactile output.
+            The main challenge of visual-tactile synthesis lies in the large discrepancy between the receptive field of vision and touch. We have ground truth of global data for vision but only local patches for touch.
+            To tackle the challenge, we propose to use dense supervision for visual data and sparse supervision for tactile data. We generate the tactile data in full scale and crop patch for the discriminator. 
+            We condition the visual discriminator on sketch and condition the tactile discriminator on sketch and vision.
+            This way, we allow vision and touch to share the same encoding, leverage vision’s global information, and take full advantage of tactile local details.
+            <br><br>
+
+            <b>Tactile-to-Hapic rendering:</b> After obtaining the tactile output gx gy that represent the surface gradients, we convert them into a grayscale friction map required by TanvasTouch rendering device. 
+            We first compute the squared magnitude of the gradient z, then apply a non-linear mapping function for contrast enhancement, and finally resize it to the TanvasTouch screen size as the final friction map.
+            We empirically find this helpful to enhance textures' feeling with electroadhesive force.
+            <br><br>
+          </p>
+          <!-- <video id="matting-video" controls autoplay loop playsinline height="100%">
+            <source src="./static/videos/website_method_video_v1.mp4"
+                    type="video/mp4">
+          </video> -->
+
+          <!-- Embed a Youtube video link for faster loading -->
+          <div class="video-container">
+            <iframe src="https://www.youtube.com/embed/M6BXEYntSQo" frameborder="0" allowfullscreen></iframe>
+          </div>
+          <div style="text-align: center">
+            <span style=" color: #0475F5; "><a href="https://drive.google.com/file/d/10y1vfD_7cyM_1jPLrAlUx51K2_3fXEjL/view?usp=sharing">[Download the video here]</a></span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+</div>
+</section>
+
+<section class="section" id="BibTeX">
+  <div class="container is-max-desktop content">
+    <h2 class="title">BibTeX</h2>
+    <pre><code>@article{xxxxx,
+  title     = {Visual-Tactile-Syn: Controllable Visual-Tactile Synthesis},
+  author    = {Gao, Ruihan and Yuan, Wenzhen and Zhu, Jun-Yan},
+  journal   = {arXiv preprint},
+  year      = {2023},
+}</code></pre>
+  </div>
+</section>
+
+<footer class="footer">
+  <div class="container">
+    <div class="content has-text-centered">
+      <a class="icon-link"
+         href="./static/files/visual-tactile-syn_paper.pdf">
+        <i class="fas fa-file-pdf"></i>
+      </a>
+      <a class="icon-link" href="https://github.com/RuihanGao" class="external-link" disabled>
+        <i class="fab fa-github"></i>
+      </a>
+    </div>
+    <div class="columns is-centered">
+      <div class="column is-8">
+        <div class="content">
+          <p>
+            This website is adapted from <a href="https://github.com/nerfies/nerfies.github.io">nerfies</a>.
+            We thank the authors for open-sourcing the source code. 
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>
+
+</body>
+
+<!-- javascript code for customized juxtapose -->
+<script src="./static/js/juxtapose.js"></script>
+<!-- javascript code for clickable events -->
+<script src="./static/js/clickable.js"></script>
+
+
+</html>
