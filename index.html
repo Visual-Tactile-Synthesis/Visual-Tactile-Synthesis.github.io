@@ -203,8 +203,6 @@
     <div class="container">
       <div id="results-carousel" class="carousel results-carousel">
         <!-- Note: Need at least 4 items to show carousel -->
-        <!-- TODO: maybe not show everything, choose some impressive results. -->
-
         <video id="recon-mesh-BlackJeans" autoplay controls muted loop playsinline height="100%">
           <source src="./static/videos/recon_mesh/rendered_mesh_BlackJeans_BlackJeans.mp4"
                   type="video/mp4">
@@ -913,12 +911,67 @@
   <div class="container is-max-desktop">
     <div class="columns is-centered">
       <div class="column is-full-width">
-        <h2 class="title is-3 has-text-centered">Results: swapping different materials</h2>
+        <h2 class="title is-3 has-text-centered">Results: text-guided visual-tactile synthesis</h2>
         <div class="content has-text-justified">
           <p>
-            Here we show the generated visual and tactile output. The leftmost column shows the testing sketch input, and the rest columns show the generated visual and tactile outputs. The tactile outputs are shown in surface normal maps to represent the geometry information. Our model can generate high-quality visual and tactile outputs for various clothing categories, in terms of both global shape and local textures.
+            We also extend our method to synthesizing visual-tactile outputs given both sketches and text prompts. We first use 
+            <a href="https://openai.com/product/dall-e-2">DALL⋅E 2</a>
+            to create variations of an original sketch in the <i>TouchClothing</i> dataset and then feed the edited sketches to our conditional generative models.
+            Sample results are shown below, with paired visual image and tactile normal map.
+            The top row shows the training object and the text prompt is listed below each testing sketch.
+            Despite the unseen shapes of pockets and embroideries, our model generalizes well to match visual and tactile features with the shape information embedded in the sketch.
           </p>
           
+
+          <!-- row 0, show training objects -->
+          <div class="columns is-centered">
+   
+            <div class="column">
+              <div class="content">
+                <div style="text-align: center; padding: 70px 0px;">
+                  <b>Objects</b>
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <div class="column">
+              <div class="content">
+                <div class="tab_container">
+                  <img src="./static/images/DALLE_sketch/training_objects/RedShirt_test_0_padded_1800_edge_masked.png" alt="">
+                </div>
+              </div>
+            </div>
+
+            <div class="column">
+              <div class="content">
+                <div class="tab_container">
+                  <img src="./static/images/DALLE_sketch/training_objects/DenimShirt_test_0_padded_1800_edge_masked.png" alt="">
+                </div>
+              </div>
+            </div>
+
+            <div class="column">
+              <div class="content">
+                <div class="tab_container">
+                  <img src="./static/images/DALLE_sketch/training_objects/PinkShorts_test_0_padded_1800_edge_masked.png" alt="">
+                </div>
+              </div>
+            </div>
+
+            <div class="column">
+              <div class="content">
+                <div class="tab_container">
+                  <img src="./static/images/DALLE_sketch/training_objects/FlowerJeans_test_0_padded_1800_edge_masked.png" alt="">
+                </div>
+              </div>
+            </div>
+
+          </div>
+          
+          
+
+
           <!-- row 1 -->
           <div class="columns is-centered">
             
@@ -926,7 +979,8 @@
             <div class="column">
               <div class="content">
                 <div class="tab_container">
-                  <img src="./static/images/swap_sketch/sketch/WhiteVest_test_0_padded_1800_edge_erode_crop.png" alt="WhiteVest_sketch">
+                  <img src="./static/images/DALLE_sketch/sketch/DALLE_1800_6_edge_erode_crop.png" alt="">
+                  <p>a black-white sketch of a hoodie, single-pixel width stroke</p>
                 </div>
               </div>
             </div>
@@ -946,10 +1000,10 @@
                         <div class="jx-arrow jx-right"></div>
                       </div>
                       <div class="jx-image jx-left " style="width: 54.53%;">
-                        <img src="./static/images/swap_sketch/WhiteVest_WhiteVest/fake_I/WhiteVest_test_0_padded_1800_edge_masked.png" alt="" data-label="Visual">
+                        <img src="./static/images/DALLE_sketch/RedShirt_DALLE_6/fake_I/DALLE_1800_6_edge_masked.png" alt="" data-label="Visual">
                       </div>
                       <div class="jx-image jx-right " style="width: 45.47%;">
-                        <img src="./static/images/swap_sketch/WhiteVest_WhiteVest/fake_N/WhiteVest_test_0_padded_1800_edge_masked.png" alt="" data-label="Tactile">
+                        <img src="./static/images/DALLE_sketch/RedShirt_DALLE_6/fake_N/DALLE_1800_6_edge_masked.png" alt="" data-label="Tactile">
                       </div>
                     </div>
                   </div>
@@ -972,10 +1026,10 @@
                         <div class="jx-arrow jx-right"></div>
                       </div>
                       <div class="jx-image jx-left " style="width: 54.53%;">
-                        <img src="./static/images/swap_sketch/WhiteTshirt_WhiteVest/fake_I/WhiteVest_test_0_padded_1800_edit0_edge_masked.png" alt="" data-label="Visual">
+                        <img src="./static/images/DALLE_sketch/DenimShirt_DALLE_6/fake_I/DALLE_1800_6_edge_masked.png" alt="" data-label="Visual">
                       </div>
                       <div class="jx-image jx-right " style="width: 45.47%;">
-                        <img src="./static/images/swap_sketch/WhiteTshirt_WhiteVest/fake_N/WhiteVest_test_0_padded_1800_edit0_edge_masked.png" alt="" data-label="Tactile">
+                        <img src="./static/images/DALLE_sketch/DenimShirt_DALLE_6/fake_N/DALLE_1800_6_edge_masked.png" alt="" data-label="Tactile">
                       </div>
                     </div>
                   </div>
@@ -998,10 +1052,10 @@
                         <div class="jx-arrow jx-right"></div>
                       </div>
                       <div class="jx-image jx-left " style="width: 54.53%;">
-                        <img src="./static/images/swap_sketch/GreenSkirt_WhiteVest/fake_I/WhiteVest_test_0_padded_1800_edit0_edge_masked.png" alt="" data-label="Visual">
+                        <img src="./static/images/DALLE_sketch/PinkShorts_DALLE_6/fake_I/DALLE_1800_6_edge_masked.png" alt="" data-label="Visual">
                       </div>
                       <div class="jx-image jx-right " style="width: 45.47%;">
-                        <img src="./static/images/swap_sketch/GreenSkirt_WhiteVest/fake_N/WhiteVest_test_0_padded_1800_edit0_edge_masked.png" alt="" data-label="Tactile">
+                        <img src="./static/images/DALLE_sketch/PinkShorts_DALLE_6/fake_N/DALLE_1800_6_edge_masked.png" alt="" data-label="Tactile">
                       </div>
                     </div>
                   </div>
@@ -1024,10 +1078,10 @@
                         <div class="jx-arrow jx-right"></div>
                       </div>
                       <div class="jx-image jx-left " style="width: 54.53%;">
-                        <img src="./static/images/swap_sketch/BluePants_WhiteVest/fake_I/WhiteVest_test_0_padded_1800_edit0_edge_masked.png" alt="" data-label="Visual">
+                        <img src="./static/images/DALLE_sketch/FlowerJeans_DALLE_6/fake_I/DALLE_1800_6_edge_masked.png" alt="" data-label="Visual">
                       </div>
                       <div class="jx-image jx-right " style="width: 45.47%;">
-                        <img src="./static/images/swap_sketch/BluePants_WhiteVest/fake_N/WhiteVest_test_0_padded_1800_edit0_edge_masked.png" alt="" data-label="Tactile">
+                        <img src="./static/images/DALLE_sketch/FlowerJeans_DALLE_6/fake_N/DALLE_1800_6_edge_masked.png" alt="" data-label="Tactile">
                       </div>
                     </div>
                   </div>
@@ -1044,7 +1098,8 @@
             <div class="column">
               <div class="content">
                 <div class="tab_container">
-                  <img src="./static/images/swap_sketch/sketch/WhiteTshirt_test_0_padded_1800_edge_erode_crop.png" alt="WhiteVest_sketch">
+                  <img src="./static/images/DALLE_sketch/sketch/DALLE_1800_10_edge_erode_crop.png" alt="WhiteVest_sketch">
+                  <p>a black-white sketch of a shirt with daisy-shape patterns.</p>
                 </div>
               </div>
             </div>
@@ -1064,10 +1119,10 @@
                         <div class="jx-arrow jx-right"></div>
                       </div>
                       <div class="jx-image jx-left " style="width: 54.53%;">
-                        <img src="./static/images/swap_sketch/WhiteVest_WhiteTshirt/fake_I/WhiteTshirt_test_0_padded_1800_edit0_edge_masked.png" alt="" data-label="Visual">
+                        <img src="./static/images/DALLE_sketch/RedShirt_DALLE_10/fake_I/DALLE_1800_10_edge_masked.png" alt="" data-label="Visual">
                       </div>
                       <div class="jx-image jx-right " style="width: 45.47%;">
-                        <img src="./static/images/swap_sketch/WhiteVest_WhiteTshirt/fake_N/WhiteTshirt_test_0_padded_1800_edit0_edge_masked.png" alt="" data-label="Tactile">
+                        <img src="./static/images/DALLE_sketch/RedShirt_DALLE_10/fake_N/DALLE_1800_10_edge_masked.png" alt="" data-label="Tactile">
                       </div>
                     </div>
                   </div>
@@ -1090,10 +1145,10 @@
                         <div class="jx-arrow jx-right"></div>
                       </div>
                       <div class="jx-image jx-left " style="width: 54.53%;">
-                        <img src="./static/images/swap_sketch/WhiteTshirt_WhiteTshirt/fake_I/WhiteTshirt_test_0_padded_1800_edge_masked.png" alt="" data-label="Visual">
+                        <img src="./static/images/DALLE_sketch/DenimShirt_DALLE_10/fake_I/DALLE_1800_10_edge_masked.png" alt="" data-label="Visual">
                       </div>
                       <div class="jx-image jx-right " style="width: 45.47%;">
-                        <img src="./static/images/swap_sketch/WhiteTshirt_WhiteTshirt/fake_N/WhiteTshirt_test_0_padded_1800_edge_masked.png" alt="" data-label="Tactile">
+                        <img src="./static/images/DALLE_sketch/DenimShirt_DALLE_10/fake_N/DALLE_1800_10_edge_masked.png" alt="" data-label="Tactile">
                       </div>
                     </div>
                   </div>
@@ -1116,10 +1171,10 @@
                         <div class="jx-arrow jx-right"></div>
                       </div>
                       <div class="jx-image jx-left " style="width: 54.53%;">
-                        <img src="./static/images/swap_sketch/GreenSkirt_WhiteTshirt/fake_I/WhiteTshirt_test_0_padded_1800_edit0_edge_masked.png" alt="" data-label="Visual">
+                        <img src="./static/images/DALLE_sketch/PinkShorts_DALLE_10/fake_I/DALLE_1800_10_edge_masked.png" alt="" data-label="Visual">
                       </div>
                       <div class="jx-image jx-right " style="width: 45.47%;">
-                        <img src="./static/images/swap_sketch/GreenSkirt_WhiteTshirt/fake_N/WhiteTshirt_test_0_padded_1800_edit0_edge_masked.png" alt="" data-label="Tactile">
+                        <img src="./static/images/DALLE_sketch/PinkShorts_DALLE_10/fake_N/DALLE_1800_10_edge_masked.png" alt="" data-label="Tactile">
                       </div>
                     </div>
                   </div>
@@ -1142,10 +1197,10 @@
                         <div class="jx-arrow jx-right"></div>
                       </div>
                       <div class="jx-image jx-left " style="width: 54.53%;">
-                        <img src="./static/images/swap_sketch/BluePants_WhiteTshirt/fake_I/WhiteTshirt_test_0_padded_1800_edit0_edge_masked.png" alt="" data-label="Visual">
+                        <img src="./static/images/DALLE_sketch/FlowerJeans_DALLE_10/fake_I/DALLE_1800_10_edge_masked.png" alt="" data-label="Visual">
                       </div>
                       <div class="jx-image jx-right " style="width: 45.47%;">
-                        <img src="./static/images/swap_sketch/BluePants_WhiteTshirt/fake_N/WhiteTshirt_test_0_padded_1800_edit0_edge_masked.png" alt="" data-label="Tactile">
+                        <img src="./static/images/DALLE_sketch/FlowerJeans_DALLE_10/fake_N/DALLE_1800_10_edge_masked.png" alt="" data-label="Tactile">
                       </div>
                     </div>
                   </div>
@@ -1162,7 +1217,8 @@
             <div class="column">
               <div class="content">
                 <div class="tab_container">
-                  <img src="./static/images/swap_sketch/sketch/GreenSkirt_test_0_padded_1800_edge_erode_crop.png" alt="WhiteVest_sketch">
+                  <img src="./static/images/DALLE_sketch/sketch/DALLE_1800_1_edge_erode_crop.png" alt="WhiteVest_sketch">
+                  <p>a sketch of a pair of jeans<p>
                 </div>
               </div>
             </div>   
@@ -1182,10 +1238,10 @@
                         <div class="jx-arrow jx-right"></div>
                       </div>
                       <div class="jx-image jx-left " style="width: 54.53%;">
-                        <img src="./static/images/swap_sketch/WhiteVest_GreenSkirt/fake_I/GreenSkirt_test_0_padded_1800_edit0_edge_masked.png" alt="" data-label="Visual">
+                        <img src="./static/images/DALLE_sketch/RedShirt_DALLE_1/fake_I/DALLE_1800_1_edge_masked.png" alt="" data-label="Visual">
                       </div>
                       <div class="jx-image jx-right " style="width: 45.47%;">
-                        <img src="./static/images/swap_sketch/WhiteVest_GreenSkirt/fake_N/GreenSkirt_test_0_padded_1800_edit0_edge_masked.png" alt="" data-label="Tactile">
+                        <img src="./static/images/DALLE_sketch/RedShirt_DALLE_1/fake_N/DALLE_1800_1_edge_masked.png" alt="" data-label="Tactile">
                       </div>
                     </div>
                   </div>
@@ -1208,10 +1264,10 @@
                         <div class="jx-arrow jx-right"></div>
                       </div>
                       <div class="jx-image jx-left " style="width: 54.53%;">
-                        <img src="./static/images/swap_sketch/WhiteTshirt_GreenSkirt/fake_I/GreenSkirt_test_0_padded_1800_edit0_edge_masked.png" alt="" data-label="Visual">
+                        <img src="./static/images/DALLE_sketch/DenimShirt_DALLE_1/fake_I/DALLE_1800_1_edge_masked.png" alt="" data-label="Visual">
                       </div>
                       <div class="jx-image jx-right " style="width: 45.47%;">
-                        <img src="./static/images/swap_sketch/WhiteTshirt_GreenSkirt/fake_N/GreenSkirt_test_0_padded_1800_edit0_edge_masked.png" alt="" data-label="Tactile">
+                        <img src="./static/images/DALLE_sketch/DenimShirt_DALLE_1/fake_N/DALLE_1800_1_edge_masked.png" alt="" data-label="Tactile">
                       </div>
                     </div>
                   </div>
@@ -1234,10 +1290,10 @@
                         <div class="jx-arrow jx-right"></div>
                       </div>
                       <div class="jx-image jx-left " style="width: 54.53%;">
-                        <img src="./static/images/swap_sketch/GreenSkirt_GreenSkirt/fake_I/GreenSkirt_test_0_padded_1800_edge_masked.png" alt="" data-label="Visual">
+                        <img src="./static/images/DALLE_sketch/PinkShorts_DALLE_1/fake_I/DALLE_1800_1_edge_masked.png" alt="" data-label="Visual">
                       </div>
                       <div class="jx-image jx-right " style="width: 45.47%;">
-                        <img src="./static/images/swap_sketch/GreenSkirt_GreenSkirt/fake_N/GreenSkirt_test_0_padded_1800_edge_masked.png" alt="" data-label="Tactile">
+                        <img src="./static/images/DALLE_sketch/PinkShorts_DALLE_1/fake_N/DALLE_1800_1_edge_masked.png" alt="" data-label="Tactile">
                       </div>
                     </div>
                   </div>
@@ -1260,10 +1316,10 @@
                         <div class="jx-arrow jx-right"></div>
                       </div>
                       <div class="jx-image jx-left " style="width: 54.53%;">
-                        <img src="./static/images/swap_sketch/BluePants_GreenSkirt/fake_I/GreenSkirt_test_0_padded_1800_edit0_edge_masked.png" alt="" data-label="Visual">
+                        <img src="./static/images/DALLE_sketch/FlowerJeans_DALLE_1/fake_I/DALLE_1800_1_edge_masked.png" alt="" data-label="Visual">
                       </div>
                       <div class="jx-image jx-right " style="width: 45.47%;">
-                        <img src="./static/images/swap_sketch/BluePants_GreenSkirt/fake_N/GreenSkirt_test_0_padded_1800_edit0_edge_masked.png" alt="" data-label="Tactile">
+                        <img src="./static/images/DALLE_sketch/FlowerJeans_DALLE_1/fake_N/DALLE_1800_1_edge_masked.png" alt="" data-label="Tactile">
                       </div>
                     </div>
                   </div>
@@ -1280,7 +1336,8 @@
             <div class="column">
               <div class="content">
                 <div class="tab_container">
-                  <img src="./static/images/swap_sketch/sketch/BluePants_test_0_padded_1800_edge_erode_crop.png" alt="WhiteVest_sketch">
+                  <img src="./static/images/DALLE_sketch/sketch/DALLE_1800_4_edge_erode_crop.png" alt="WhiteVest_sketch">
+                  <p>a sketch of a pair of pants with two pockets, pockets are in the shape of a cat head</p>
                 </div>
               </div>
             </div>
@@ -1300,10 +1357,10 @@
                         <div class="jx-arrow jx-right"></div>
                       </div>
                       <div class="jx-image jx-left " style="width: 54.53%;">
-                        <img src="./static/images/swap_sketch/WhiteVest_BluePants/fake_I/BluePants_test_0_padded_1800_edit0_edge_masked.png" alt="" data-label="Visual">
+                        <img src="./static/images/DALLE_sketch/RedShirt_DALLE_4/fake_I/DALLE_1800_4_edge_masked.png" alt="" data-label="Visual">
                       </div>
                       <div class="jx-image jx-right " style="width: 45.47%;">
-                        <img src="./static/images/swap_sketch/WhiteVest_BluePants/fake_N/BluePants_test_0_padded_1800_edit0_edge_masked.png" alt="" data-label="Tactile">
+                        <img src="./static/images/DALLE_sketch/RedShirt_DALLE_4/fake_N/DALLE_1800_4_edge_masked.png" alt="" data-label="Tactile">
                       </div>
                     </div>
                   </div>
@@ -1326,10 +1383,10 @@
                         <div class="jx-arrow jx-right"></div>
                       </div>
                       <div class="jx-image jx-left " style="width: 54.53%;">
-                        <img src="./static/images/swap_sketch/WhiteTshirt_BluePants/fake_I/BluePants_test_0_padded_1800_edit0_edge_masked.png" alt="" data-label="Visual">
+                        <img src="./static/images/DALLE_sketch/DenimShirt_DALLE_4/fake_I/DALLE_1800_4_edge_masked.png" alt="" data-label="Visual">
                       </div>
                       <div class="jx-image jx-right " style="width: 45.47%;">
-                        <img src="./static/images/swap_sketch/WhiteTshirt_BluePants/fake_N/BluePants_test_0_padded_1800_edit0_edge_masked.png" alt="" data-label="Tactile">
+                        <img src="./static/images/DALLE_sketch/DenimShirt_DALLE_4/fake_N/DALLE_1800_4_edge_masked.png" alt="" data-label="Tactile">
                       </div>
                     </div>
                   </div>
@@ -1352,10 +1409,10 @@
                         <div class="jx-arrow jx-right"></div>
                       </div>
                       <div class="jx-image jx-left " style="width: 54.53%;">
-                        <img src="./static/images/swap_sketch/GreenSkirt_BluePants/fake_I/BluePants_test_0_padded_1800_edit0_edge_masked.png" alt="" data-label="Visual">
+                        <img src="./static/images/DALLE_sketch/PinkShorts_DALLE_4/fake_I/DALLE_1800_4_edge_masked.png" alt="" data-label="Visual">
                       </div>
                       <div class="jx-image jx-right " style="width: 45.47%;">
-                        <img src="./static/images/swap_sketch/GreenSkirt_BluePants/fake_N/BluePants_test_0_padded_1800_edit0_edge_masked.png" alt="" data-label="Tactile">
+                        <img src="./static/images/DALLE_sketch/PinkShorts_DALLE_4/fake_N/DALLE_1800_4_edge_masked.png" alt="" data-label="Tactile">
                       </div>
                     </div>
                   </div>
@@ -1378,10 +1435,10 @@
                         <div class="jx-arrow jx-right"></div>
                       </div>
                       <div class="jx-image jx-left " style="width: 54.53%;">
-                        <img src="./static/images/swap_sketch/BluePants_BluePants/fake_I/BluePants_test_0_padded_1800_edge_masked.png" alt="" data-label="Visual">
+                        <img src="./static/images/DALLE_sketch/FlowerJeans_DALLE_4/fake_I/DALLE_1800_4_edge_masked.png" alt="" data-label="Visual">
                       </div>
                       <div class="jx-image jx-right " style="width: 45.47%;">
-                        <img src="./static/images/swap_sketch/BluePants_BluePants/fake_N/BluePants_test_0_padded_1800_edge_masked.png" alt="" data-label="Tactile">
+                        <img src="./static/images/DALLE_sketch/FlowerJeans_DALLE_4/fake_N/DALLE_1800_4_edge_masked.png" alt="" data-label="Tactile">
                       </div>
                     </div>
                   </div>
