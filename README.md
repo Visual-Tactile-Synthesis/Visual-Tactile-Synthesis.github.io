@@ -1,4 +1,4 @@
-# Visual-Tactile-Syn webpage
+# Visual-Tactile-Syntheis webpage
 
 This is the repository that contains source code for the [Visual-Tactile-Syn website](https://visual-tactile-syn.github.io/).
 
