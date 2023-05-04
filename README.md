@@ -1,6 +1,6 @@
 # Visual-Tactile-Syntheis webpage
 
-This is the repository that contains source code for the [Visual-Tactile-Syn website](https://visual-tactile-syn.github.io/).
+This is the repository that contains source code for the [Visual-Tactile-Synthesis website](https://visual-tactile-synthesis.github.io/).
 
 It is adapted from the [Nerfies website](https://nerfies.github.io/):
 ```
