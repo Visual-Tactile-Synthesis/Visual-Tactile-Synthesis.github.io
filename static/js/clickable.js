@@ -143,22 +143,21 @@
     fake_gx.src = parent_dir + foldername + "/" + test_epoch + "/images/" + "test_fake_gx_patch_" + clicked_index + "/" + img_name;
     fake_gy.src = parent_dir + foldername + "/" + test_epoch + "/images/" + "test_fake_gy_patch_" + clicked_index + "/" + img_name;
     fake_normal.src = parent_dir + foldername + "/" + test_epoch + "/images/" + "test_fake_normal_patch_" + clicked_index + "/" + img_name;
-  }
-  
+  };
   
   function onLoadComplete(coords) {
       coords_data[0].x = coords.x;
       coords_data[0].y = coords.y;
       layout.images[0].source = parent_dir + foldername + "/" + test_epoch + "/images/" + filename + "/"  + img_name.replace('.png', full_image_postfix);
       Plotly.redraw('div_left', coords_data, layout, config);
+      update_patch_img_path(); // initialize with the first patch
       leftPlot.on('plotly_click', function(pts){
       clicked_index = pts.points[0].pointNumber;
       console.log("click index " + clicked_index);
       update_patch_img_path();
       });
   
-  }
-  
+  };
   
   // Change function for dropdown list, update the image plot
   $('#folders').change(function() {
@@ -171,7 +170,7 @@
       update_patch_img_path();
   });
   
-  
+
   $('#files').change(function() {
   console.log('files event');
       filename = $('#files').val();
